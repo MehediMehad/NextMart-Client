@@ -11,11 +11,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { FieldValues, SubmitErrorHandler, useForm } from "react-hook-form";
+import { registrationSchema } from "./registerValidation";
 
 const RegisterForm = () => {
-  const form = useForm();
+  const form = useForm({ resolver: zodResolver(registrationSchema) });
   const onSubmit: SubmitErrorHandler<FieldValues> = (data) => {
     console.log(data);
   };
@@ -83,7 +85,7 @@ const RegisterForm = () => {
                 <FormControl>
                   <Input type="password" {...field} value={field.value || ""} />
                 </FormControl>
-
+                {/* Password does not match ERROR Message */}
                 {passwordConfirm && password !== passwordConfirm ? (
                   <FormMessage> Password does not match </FormMessage>
                 ) : (
@@ -93,7 +95,11 @@ const RegisterForm = () => {
             )}
           />
 
-          <Button type="submit" className="mt-5 w-full">
+          <Button
+            disabled={passwordConfirm && password !== passwordConfirm}
+            type="submit"
+            className="mt-5 w-full"
+          >
             Register
           </Button>
         </form>
