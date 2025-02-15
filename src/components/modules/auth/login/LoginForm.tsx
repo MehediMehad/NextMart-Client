@@ -49,6 +49,8 @@ const LoginForm = () => {
     console.log("Captcha value:", value);
     try {
       const res = await reCaptchaTokenVerification(value!);
+      console.log(res);
+
       if (res?.success) {
         setReCaptchaStatues(true);
       }
