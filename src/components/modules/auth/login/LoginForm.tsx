@@ -2,6 +2,8 @@
 
 import Logo from "@/components/shared/Logo";
 import { Button } from "@/components/ui/button";
+import ReCAPTCHA from "react-google-recaptcha";
+
 import {
   Form,
   FormControl,
@@ -40,6 +42,9 @@ const LoginForm = () => {
     }
   };
 
+  const onChange = (value: string | null) => {
+    console.log("Captcha value:", value);
+  };
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
       <div className="flex flex-col items-center space-x-4 text-center ">
@@ -79,6 +84,12 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
+          <div className="mt-2">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY}
+              onChange={onChange}
+            />
+          </div>
           <Button type="submit" className="mt-5 w-full">
             {isSubmitting ? "Logging...." : "Login"}
           </Button>
