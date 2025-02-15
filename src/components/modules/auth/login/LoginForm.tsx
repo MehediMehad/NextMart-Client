@@ -97,7 +97,7 @@ const LoginForm = () => {
           />
           <div className="mt-2">
             <ReCAPTCHA
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY!}
               onChange={onChange}
             />
           </div>
