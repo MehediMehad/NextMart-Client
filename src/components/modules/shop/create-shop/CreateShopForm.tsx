@@ -28,7 +28,17 @@ export default function CreateShopForm() {
   } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    const servicesOffered = data?.servicesOffered
+      .split(",")
+      .map((service: string) => service.trim())
+      .filter((service: string) => service !== "");
+
+    const modifiedData = {
+      ...data,
+      establishedYear: Number(data?.establishedYear),
+      servicesOffered,
+    };
+    console.log(servicesOffered);
   };
 
   return (
@@ -185,7 +195,9 @@ export default function CreateShopForm() {
                 name="servicesOffered"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Services Offered</FormLabel>
+                    <FormLabel>
+                      Services Offered (Example: Web Design, Graphic Design)
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         className="h-36"
