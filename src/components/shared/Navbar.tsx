@@ -17,7 +17,6 @@ import { useUser } from "@/context/UserContext";
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
-  console.log(user);
 
   const handleLogout = () => {
     logout();
@@ -48,11 +47,9 @@ export default function Navbar() {
           ) : (
             <>
               {" "}
-              {!user.hasShop && (
-                <Link href={"/create-shop"}>
-                  <Button>Create Shop</Button>
-                </Link>
-              )}
+              <Link href={"/create-shop"}>
+                <Button>Create Shop</Button>
+              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar>
