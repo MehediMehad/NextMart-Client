@@ -1,7 +1,9 @@
+import MangeCategories from "@/components/modules/shop/category";
+
 const ProductCategoryPage = () => {
   return (
     <div>
-      <h1>This is ProductCategoryPage component</h1>
+      <MangeCategories />
     </div>
   );
 };
