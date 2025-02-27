@@ -1,5 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import NMImageUploader from "@/components/ui/core/NMImageUploader";
+import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +18,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 import { FieldValues, SubmitErrorHandler, useForm } from "react-hook-form";
 
 const CreateCategoryModal = () => {
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+
   const form = useForm();
   const {
     formState: { isSubmitting },
@@ -45,17 +52,53 @@ const CreateCategoryModal = () => {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="email"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input type="email" {...field} value={field.value || ""} />
+                    <Input type="text" {...field} value={field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <div className="flex items-center justify-between gap-x-2 mt-5">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="h-36 w-full"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {imagePreview.length > 0 ? (
+                <ImagePreviewer
+                  imagePreview={imagePreview}
+                  setImageFiles={setImageFiles}
+                  setImagePreview={setImagePreview}
+                  className="mt-8"
+                />
+              ) : (
+                <div className="mt-8">
+                  <NMImageUploader
+                    setImagePreview={setImagePreview}
+                    setImageFiles={setImageFiles}
+                    label="Upload Logo"
+                  />
+                </div>
+              )}
+            </div>
             <Button
               //   disabled={reCaptchaStatues ? false : true}
               type="submit"
