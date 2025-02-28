@@ -19,8 +19,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createCategory } from "@/services/Category";
 import { useState } from "react";
 import { FieldValues, SubmitErrorHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const CreateCategoryModal = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
@@ -33,6 +35,22 @@ const CreateCategoryModal = () => {
 
   const onSubmit: SubmitErrorHandler<FieldValues> = async (data) => {
     try {
+      const fromData = new FormData();
+      fromData.append("data", JSON.stringify(data)); // All Data
+      fromData.append("icon", imageFiles[0] as File); // One Image
+
+      const res = await createCategory(fromData);
+      console.log(res);
+
+      if (res?.success) {
+        toast.success(res?.message);
+      } else {
+        if (res?.errorSources[0].message) {
+          toast.error(res?.errorSources[0].message);
+        } else {
+          toast.error(res.message);
+        }
+      }
       console.log(data);
     } catch (err) {
       console.error(err);
@@ -100,7 +118,7 @@ const CreateCategoryModal = () => {
               )}
             </div>
             <Button
-              //   disabled={reCaptchaStatues ? false : true}
+              disabled={isSubmitting ? true : false}
               type="submit"
               className="mt-5 w-full"
             >
