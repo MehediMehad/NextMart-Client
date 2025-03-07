@@ -92,7 +92,7 @@ const MangeCategories = ({categories}: CategoriesProps) => {
   ];
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-5">
         <h1 className="text-xl font-bold">Manage Categories</h1>
         <CreateCategoryModal />
       </div>
