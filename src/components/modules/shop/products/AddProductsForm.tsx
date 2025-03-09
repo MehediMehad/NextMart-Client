@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { IBrand, ICategory } from "@/types";
+import { IBrand, ICategory, IProductFormData } from "@/types";
 import { getAllCategories } from "@/services/Category";
 import { getAllBrands } from "@/services/Brand";
 import Logo from "@/components/shared/Logo";
@@ -52,7 +52,6 @@ export default function AddProductsForm() {
       availableColors: [{ value: "" }],
       keyFeatures: [{ value: "" }],
       specification: [{ key: "", value: "" }],
-      specificationDemo: [{ key: "", value: "" }],
     },
   });
 
@@ -87,14 +86,6 @@ export default function AddProductsForm() {
     appendSpec({ key: "", value: "" });
   };
 
-  const { append: appendDemo, fields: demoFields } = useFieldArray({
-    control: form.control,
-    name: "specificationDemo",
-  });
-
-  const addDemo = () => {
-    appendDemo({ key: "", value: "" });
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,9 +101,20 @@ export default function AddProductsForm() {
     fetchData();
   }, []);
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const onSubmit: SubmitHandler<IProductFormData> = async (data) => {
+    const availableColor = data.availableColors.map(color => color.value)
+    const keyFeatures = data.keyFeatures.map(feature => feature.value)
+
+    const specification: {[key:string]: string } = {};
+
+    data.specification.forEach((spec) => {
+      specification[spec.key] = spec.value;
+    });
+
+    console.log({availableColor, keyFeatures, specification});
+    
     try {
-      console.log("onSubmit", data);
+      // console.log("onSubmit", data);
     } catch (err: any) {
       console.error(err);
     }
@@ -394,54 +396,6 @@ export default function AddProductsForm() {
                 <FormField
                   control={form.control}
                   name={`specification.${index}.value`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Feature Description {index + 1}</FormLabel>
-                      <FormControl>
-                        <Input {...field} value={field.value || ""} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* SpecificationDemo */}
-          <div>
-            <div className="flex justify-between items-center border-t border-b py-3 my-5">
-              <p className="text-primary font-bold text-xl">
-                Specification Demo
-              </p>
-              <Button
-                onClick={addDemo}
-                variant="outline"
-                className="size-10"
-                type="button"
-              >
-                <Plus className="text-primary" />
-              </Button>
-            </div>
-
-            {demoFields.map((demoField, index) => (
-              <div key={demoField.id} className="grid grid-cols-1 gap-4 md:grid-cols-2 my-5">
-                <FormField
-                  control={form.control}
-                  name={`specificationDemo.${index}.key`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Feature {index + 1}</FormLabel>
-                      <FormControl>
-                        <Input {...field} value={field.value || ""} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`specificationDemo.${index}.value`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Feature Description {index + 1}</FormLabel>
