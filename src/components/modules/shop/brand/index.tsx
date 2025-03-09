@@ -17,9 +17,8 @@ const ManageBrands = ({ brands }: { brands: IBrand[] }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const handleDelete = (data: IBrand) => {
-    console.log(data);
     setSelectedId(data?._id);
-    setSelectedItem(data?.name);
+    setSelectedItem(data.name);
     setModalOpen(true);
   };
 
@@ -27,16 +26,15 @@ const ManageBrands = ({ brands }: { brands: IBrand[] }) => {
     try {
       if (selectedId) {
         const res = await deleteBrand(selectedId);
-        console.log(res);
         if (res.success) {
-          toast.success(res.message);
+          toast.success("Brand deleted successfully");
           setModalOpen(false);
         } else {
-          toast.error(res.message);
+          toast.error("Failed to delete brand");
         }
       }
     } catch (err: any) {
-      console.error(err?.message);
+      toast.error("Failed to delete brand");
     }
   };
 
