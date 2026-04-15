@@ -10,12 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  FieldValues,
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import NMImageUploader from "@/components/ui/core/NMImageUploader";
@@ -35,7 +30,10 @@ import { getAllBrands } from "@/services/Brand";
 import Logo from "@/components/shared/Logo";
 
 export default function AddProductsForm() {
+  // eslint-disable-next-line
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  console.log(imageFiles);
+
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
   const [categories, setCategories] = useState<ICategory[] | []>([]);
   const [brands, setBrands] = useState<IBrand[] | []>([]);
@@ -86,7 +84,6 @@ export default function AddProductsForm() {
     appendSpec({ key: "", value: "" });
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       const [categoriesData, brandsData] = await Promise.all([
@@ -102,17 +99,17 @@ export default function AddProductsForm() {
   }, []);
 
   const onSubmit: SubmitHandler<IProductFormData> = async (data) => {
-    const availableColor = data.availableColors.map(color => color.value)
-    const keyFeatures = data.keyFeatures.map(feature => feature.value)
+    const availableColor = data.availableColors.map((color) => color.value);
+    const keyFeatures = data.keyFeatures.map((feature) => feature.value);
 
-    const specification: {[key:string]: string } = {};
+    const specification: { [key: string]: string } = {};
 
     data.specification.forEach((spec) => {
       specification[spec.key] = spec.value;
     });
 
-    console.log({availableColor, keyFeatures, specification});
-    
+    console.log({ availableColor, keyFeatures, specification });
+
     try {
       // console.log("onSubmit", data);
     } catch (err: any) {

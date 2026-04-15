@@ -2,7 +2,7 @@ import ManageProducts from "@/components/modules/shop/products";
 import { getAllProducts } from "@/services/Product";
 
 const ManageProductsPage = async () => {
-  const { data, meta } = await getAllProducts();
+  const { data } = await getAllProducts();
   return (
     <div>
       <ManageProducts products={data} />
@@ -11,4 +11,3 @@ const ManageProductsPage = async () => {
 };
 
 export default ManageProductsPage;
-

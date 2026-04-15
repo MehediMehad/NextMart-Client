@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Input } from "../../input";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface TNMImageUploaderProps {
